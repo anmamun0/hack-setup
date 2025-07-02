@@ -1,0 +1,193 @@
+
+##  Python দিয়ে স্ক্রিনশট নেওয়ার স্ক্রিপ্ট (তুমি চাইলে এটা চালাতে পারো):
+
+
+```
+platform-tools/
+├── adb.exe
+├── fastboot.exe
+├── dmtracedump.exe
+├── etc...
+├── example.py
+```
+
+##### example.py
+
+```python 
+import subprocess
+
+# adb কমান্ড চালাও
+result = subprocess.run(['adb', 'exec-out', 'screencap', '-p'], stdout=subprocess.PIPE)
+
+# আউটপুটকে ফাইলে লিখে দাও
+with open('screenshot.png', 'wb') as f:
+    f.write(result.stdout)
+
+print("Screenshot saved as screenshot.png")
+```
+
+
+---
+
+
+### কোডের ব্যাখ্যা
+```python 
+import subprocess
+```
+Python এর subprocess মডিউল ইমপোর্ট করছে, যা বাইরের কোনো প্রোগ্রাম বা কমান্ড চালানোর জন্য ব্যবহৃত হয়।
+
+```python 
+result = subprocess.run(['adb', 'exec-out', 'screencap', '-p'], stdout=subprocess.PIPE)
+```
+
+- এখানে `subprocess.run()` দিয়ে `adb exec-out screencap -p` কমান্ডটি চালানো হচ্ছে।
+- `adb exec-out screencap -p` হলো Android ফোন থেকে স্ক্রিনশট নেওয়ার জন্য ADB কমান্ড।
+- `stdout=subprocess.PIPE` মানে, কমান্ডের আউটপুট (যা স্ক্রিনশটের বাইনারি ডেটা) Python প্রোগ্রামে ক্যাপচার করা হবে `result.stdout` এ।
+
+
+```python
+with open('screenshot.png', 'wb') as f:
+    f.write(result.stdout)
+with open('screenshot.png', 'wb') as f: — 'screenshot.png' নামে একটি নতুন ফাইল তৈরি করছে বাইনারি মোডে (wb = write binary)।
+
+f.write(result.stdout) — আগের কমান্ড থেকে পাওয়া বাইনারি ডেটা ওই ফাইলে লেখা হচ্ছে।
+```
+
+ফলে, ফোনের স্ক্রিনশট ‘screenshot.png’ নামে ফাইল হিসেবে সেভ হবে।
+
+```python
+print("Screenshot saved as screenshot.png")
+শেষে প্রিন্ট করবে, কাজটি সফল হয়েছে।
+```
+
+এই কোডটি তোমার Android ফোন থেকে ADB এর মাধ্যমে স্ক্রিনশট নিয়ে সেটা Python দিয়ে তোমার পিসিতে PNG ফাইল হিসেবে সংরক্ষণ করে।
+
+
+
+
+#### করণীয়:
+- তোমার পিসিতে Python ইনস্টল থাকতে হবে।
+- platform-tools এর adb.exe তোমার system PATH-এ থাকতে হবে অথবা subprocess.run এ adb এর ফুল পাথ দিবে।
+- উপরের স্ক্রিপ্ট save করে চালাও।
+- একই ফোল্ডারে screenshot.png ফাইল তৈরি হবে।
+
+
+
+
+
+---
+
+### Python দিয়ে adb ব্যবহার করে ফোনের সব ইনস্টল করা অ্যাপের তালিকা
+
+```
+import subprocess
+
+# adb shell command to list all installed packages
+result = subprocess.run(['adb', 'shell', 'pm', 'list', 'packages'], capture_output=True, text=True)
+
+# আউটপুটকে লাইন বাই লাইন ভাগ করো
+packages = result.stdout.splitlines()
+
+print("Installed apps packages on your phone:")
+for package in packages:
+    print(package)
+
+```
+ 
+### ১. ফোন থেকে ফাইল কপি করা (pull)
+```python 
+import subprocess
+
+# ফোন থেকে পিসিতে ফাইল কপি করা
+subprocess.run(['adb', 'pull', '/sdcard/Download/sample.txt', 'sample.txt'])
+```
+
+### ২. পিসি থেকে ফোনে ফাইল পাঠানো (push)
+
+```python 
+import subprocess
+
+# পিসি থেকে ফোনে ফাইল পাঠানো
+subprocess.run(['adb', 'push', 'myfile.txt', '/sdcard/Download/'])
+```
+### ৩. APK ইনস্টল করা
+
+```python 
+import subprocess
+
+subprocess.run(['adb', 'install', 'path/to/app.apk'])
+```
+
+### ৪. APK আনইনস্টল করা
+```python 
+import subprocess
+
+subprocess.run(['adb', 'uninstall', 'com.package.name'])
+```
+
+### ৫. Shell Access (কমান্ড চালানো)
+
+```python 
+import subprocess
+
+result = subprocess.run(['adb', 'shell', 'ls', '/sdcard/Download'], capture_output=True, text=True)
+print(result.stdout)
+```
+
+
+### 6 Python দিয়ে 1 মিনিট (60 সেকেন্ড) ভিডিও রেকর্ড করার উদাহরণ:
+
+```python 
+import subprocess
+
+# 60 সেকেন্ড ভিডিও রেকর্ড করবে ফোনে /sdcard/demo.mp4 ফাইলে
+subprocess.run(['adb', 'shell', 'screenrecord', '--time-limit', '60', '/sdcard/demo.mp4'])
+```
+
+এরপর পিসিতে ভিডিও কপি করার জন্য:
+```python
+# ফোন থেকে পিসিতে ভিডিও ফাইল কপি করা
+subprocess.run(['adb', 'pull', '/sdcard/demo.mp4', 'demo.mp4'])
+```
+
+### 7 WhatsApp ওপেন করা ADB দিয়ে
+
+```python 
+import subprocess
+
+# WhatsApp অ্যাপ চালু করা
+subprocess.run([
+    'adb', 'shell', 'monkey',
+    '-p', 'com.whatsapp',
+    '-c', 'android.intent.category.LAUNCHER',
+    '1'
+])
+```
+
+📝 ব্যাখ্যা:
+- monkey: Android এ অ্যাপ স্টার্ট করার একধরনের টুল (monkey testing tool)
+- -p com.whatsapp: প্যাকেজ নাম (WhatsApp এর জন্য)
+- -c android.intent.category.LAUNCHER: launcher category ট্যাগ
+- 1: একবারই চালাবে
+
+### 8 App Force Stop
+```
+import subprocess
+
+subprocess.run(['adb', 'shell', 'am', 'force-stop', 'com.whatsapp'])
+```
+চলমান অ্যাপ হঠাৎ বন্ধ করার জন্য।
+
+
+### 📸 ৫. Multiple Screenshots Auto Loop
+```python 
+import time
+for i in range(3):
+    subprocess.run(['adb', 'exec-out', 'screencap', '-p'], stdout=open(f'screen{i}.png', 'wb'))
+    time.sleep(5)  # প্রতি ৫ সেকেন্ডে স্ক্রিনশট
+```
+
+---
+
+
+Python দিয়ে যেকোনো ADB কমান্ড চালানো অনেক সহজ এবং আরও কাস্টমাইজড করা যায়।
