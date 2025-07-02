@@ -187,6 +187,19 @@ for i in range(3):
     time.sleep(5)  # প্রতি ৫ সেকেন্ডে স্ক্রিনশট
 ```
 
+
+
+### 🧠 ৯. Device Info বের করা (Model, Version, Battery, Storage)
+
+```python 
+import subprocess
+
+subprocess.run(['adb', 'shell', 'getprop'], text=True)
+subprocess.run(['adb', 'shell', 'dumpsys', 'battery'], text=True)
+subprocess.run(['adb', 'shell', 'df', '/sdcard'], text=True)
+```
+
+
 ---
 
 
