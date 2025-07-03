@@ -6,36 +6,64 @@
 🔹 Access Shell:     adb shell             → ডিভাইসে প্রবেশ করো (Linux shell)
 
 🛠️ System Info:
-├── getprop                         → ডিভাইস properties দেখো (OS version, model)
-├── dumpsys battery                 → ব্যাটারির অবস্থা দেখো
-├── ip addr show wlan0             → ডিভাইসের IP দেখো
+├── getprop                                  → ডিভাইস properties দেখো (OS version, model)
+├── dumpsys battery                          → ব্যাটারির অবস্থা দেখো
+├── ip addr show wlan0                       → ডিভাইসের IP দেখো
+├── dumpsys display                          → ডিসপ্লের রেজুলেশন ও স্কেলিং জানো
+├── dumpsys cpuinfo                          → CPU ব্যবহার দেখো
+├── df -h                                    → স্টোরেজ স্পেস দেখো
 
 📦 App Control:
-├── pm list packages               → Installed apps দেখো
-├── pm list packages | grep name  → নির্দিষ্ট app খুঁজো
-├── install app.apk               → অ্যাপ ইনস্টল করো
-├── uninstall <pkg>               → অ্যাপ আনইনস্টল করো
-├── pm clear <pkg>                → অ্যাপের data ক্লিয়ার করো
-├── am start -n <pkg>/.MainAct    → নির্দিষ্ট অ্যাপ চালু করো
-├── am force-stop <pkg>           → অ্যাপ forcefully বন্ধ করো
+├── pm list packages                         → Installed apps দেখো
+├── pm list packages | grep name             → নির্দিষ্ট app খুঁজো
+├── pm path <package>                        → APK path খুঁজো
+├── install app.apk                          → অ্যাপ ইনস্টল করো
+├── uninstall <pkg>                          → অ্যাপ আনইনস্টল করো
+├── pm clear <pkg>                           → অ্যাপের data ক্লিয়ার করো
+├── am start -n <pkg>/.MainAct               → নির্দিষ্ট অ্যাপ চালু করো
+├── am force-stop <pkg>                      → অ্যাপ forcefully বন্ধ করো
 ├── am start -a android.settings.APPLICATION_DETAILS_SETTINGS -d package:<pkg>
-│                                 → অ্যাপের Info Settings পেইজ খুল
+│                                            → অ্যাপের Info Settings পেইজ খুল
+├── monkey -p <pkg> -c android.intent.category.LAUNCHER 1
+│                                            → অ্যাপ monkey দিয়ে চালু করো
 
 📲 Input Automation:
-├── input tap X Y                 → স্ক্রিনে নির্দিষ্ট স্থানে ট্যাপ করাও
-├── input text "Hello"            → লেখা টাইপ করাও
-├── input swipe X1 Y1 X2 Y2       → স্ক্রিনে swipe effect দাও
-├── input keyevent 3              → Home বাটনে ক্লিক
-├── input keyevent 4              → Back বাটনে ক্লিক
+├── input tap X Y                            → স্ক্রিনে নির্দিষ্ট স্থানে ট্যাপ করাও
+├── input text "Hello"                       → লেখা টাইপ করাও
+├── input swipe X1 Y1 X2 Y2                  → স্ক্রিনে swipe effect দাও
+├── input keyevent 3                         → Home বাটনে ক্লিক
+├── input keyevent 4                         → Back বাটনে ক্লিক
+├── input keyevent 26                        → Power বাটন প্রেস
 
 📷 Screen Capture:
-├── screencap -p > file.png       → স্ক্রিনশট নাও
-├── screenrecord /sdcard/demo.mp4 → স্ক্রিন ভিডিও রেকর্ড করো
-├── pull /sdcard/demo.mp4         → ভিডিও ফাইল পিসিতে নিয়ে আসো
+├── screencap -p > file.png                  → স্ক্রিনশট নাও
+├── exec-out screencap -p > file.png         → Fast screenshot
+├── screenrecord /sdcard/demo.mp4            → স্ক্রিন ভিডিও রেকর্ড করো
+├── pull /sdcard/demo.mp4                    → ভিডিও ফাইল পিসিতে নিয়ে আসো
 
 📁 File Transfer:
-├── push <file> /sdcard/          → পিসি → ফোনে ফাইল পাঠাও
-├── pull /sdcard/<file>           → ফোন → পিসিতে ফাইল নাও
+├── push <file> /sdcard/                     → পিসি → ফোনে ফাইল পাঠাও
+├── pull /sdcard/<file>                      → ফোন → পিসিতে ফাইল নাও
+├── ls /sdcard/                              → ফোল্ডার ব্রাউজ করো
+├── rm /sdcard/file.txt                      → ফাইল ডিলিট করো
+
+🌐 Network Tools:
+├── netstat                                  → নেটওয়ার্ক কানেকশন স্ট্যাটাস
+├── ping 8.8.8.8                             → ইন্টারনেট কানেক্টিভিটি টেস্ট
+├── ifconfig / ip addr                       → নেটওয়ার্ক ইন্টারফেস তথ্য
+├── settings get global http_proxy           → প্রক্সি তথ্য জানো
+
+🧪 Developer Tools:
+├── logcat                                   → লাইভ লগ দেখো
+├── bugreport                                → সম্পূর্ণ সিস্টেম রিপোর্ট বের করো
+├── uiautomator dump                         → UI layout export করো
+├── pull /sdcard/window_dump.xml             → UI ডাম্প পিসিতে নাও
+├── tcpip 5555                               → Wireless ADB চালু করো
+├── connect <ip>:5555                        → IP দিয়ে ফোন কানেক্ট করো
+
+📦 App Backup (Optional):
+├── adb backup -apk -shared -all -f backup.ab → ব্যাকআপ নাও
+├── adb restore backup.ab                    → ব্যাকআপ ফিরিয়ে আনো
 
 
 ```
@@ -58,13 +86,16 @@
 
 🎯 2. UI Automation
 
-| কাজ                            | কমান্ড                                          |
-| ------------------------------ | ----------------------------------------------- |
-| স্ক্রিনে ডাম্প (UI XML Layout) | `adb shell uiautomator dump`                    |
-| ডাম্প pull করো                 | `adb pull /sdcard/window_dump.xml`              |
-| ট্যাপ করাও                     | `adb shell input tap x y`                       |
-| টাইপ করাও                      | `adb shell input text Hello_World`              |
-| কীবোর্ড key press              | `adb shell input keyevent 3` (HOME), `4` (BACK) |
+| 📌 কাজ                | 💻 কমান্ড                            |
+| --------------------- | ------------------------------------ |
+| UI layout dump        | `adb shell uiautomator dump`         |
+| XML pull করো          | `adb pull /sdcard/window_dump.xml`   |
+| স্ক্রিনে ট্যাপ করাও   | `adb shell input tap X Y`            |
+| লেখা টাইপ করাও        | `adb shell input text "Hello_World"` |
+| স্ক্রিনে swipe effect | `adb shell input swipe X1 Y1 X2 Y2`  |
+| Home key press        | `adb shell input keyevent 3`         |
+| Back key press        | `adb shell input keyevent 4`         |
+| Power button press    | `adb shell input keyevent 26`        |
 
 ## ⌨️ Input Commands
 
@@ -77,44 +108,53 @@
 | `adb shell input keyevent 4` | Back বাটনে ক্লিকের মতো কাজ করে |
 
 📱 3. Device Info
-| কাজ          | কমান্ড                                       |
-| ------------ | -------------------------------------------- |
-| OS version   | `adb shell getprop ro.build.version.release` |
-| Device name  | `adb shell getprop ro.product.model`         |
-| Brand name   | `adb shell getprop ro.product.brand`         |
-| Full list    | `adb shell getprop`                          |
-| Battery info | `adb shell dumpsys battery`                  |
-
+| 📌 কাজ             | 💻 কমান্ড                                    |
+| ------------------ | -------------------------------------------- |
+| OS version         | `adb shell getprop ro.build.version.release` |
+| Device name        | `adb shell getprop ro.product.model`         |
+| Brand name         | `adb shell getprop ro.product.brand`         |
+| সব properties দেখো | `adb shell getprop`                          |
+| Battery info       | `adb shell dumpsys battery`                  |
+| Storage info       | `adb shell df -h`                            |
+| CPU info           | `adb shell dumpsys cpuinfo`                  |
+| Display info       | `adb shell dumpsys display`                  |
 
 🎥 4. Screenshot & Video
-| কাজ           | কমান্ড                                    |
-| ------------- | ----------------------------------------- |
-| Screenshot    | `adb exec-out screencap -p > ss.png`      |
-| Record Screen | `adb shell screenrecord /sdcard/demo.mp4` |
-| Pull video    | `adb pull /sdcard/demo.mp4`               |
+| 📌 কাজ              | 💻 কমান্ড                                                 |
+| ------------------- | --------------------------------------------------------- |
+| Screenshot (PNG)    | `adb exec-out screencap -p > screenshot.png`              |
+| Screen record       | `adb shell screenrecord /sdcard/demo.mp4`                 |
+| Record limit 60 sec | `adb shell screenrecord --time-limit 60 /sdcard/demo.mp4` |
+| Pull ভিডিও          | `adb pull /sdcard/demo.mp4`                               |
+    |
 
 🌐 5. Network & IP Info
 
-| কাজ     | কমান্ড                         |
-| ------- | ------------------------------ |
-| WiFi IP | `adb shell ip addr show wlan0` |
-| All IP  | `adb shell ifconfig`           |
-| Ping    | `adb shell ping 8.8.8.8`       |
+| 📌 কাজ          | 💻 কমান্ড                                  |
+| --------------- | ------------------------------------------ |
+| WiFi IP দেখো    | `adb shell ip addr show wlan0`             |
+| সব IP দেখো      | `adb shell ifconfig`                       |
+| Ping টেস্ট করো  | `adb shell ping 8.8.8.8`                   |
+| HTTP proxy জানো | `adb shell settings get global http_proxy` |
 
 🔌 6. File Transfer
 
-| কাজ        | কমান্ড                        |
-| ---------- | ----------------------------- |
-| ফোন → পিসি | `adb pull /sdcard/myfile.txt` |
-| পিসি → ফোন | `adb push file.txt /sdcard/`  |
-
+| 📌 কাজ         | 💻 কমান্ড                       |
+| -------------- | ------------------------------- |
+| ফোন → পিসি     | `adb pull /sdcard/myfile.txt`   |
+| পিসি → ফোন     | `adb push myfile.txt /sdcard/`  |
+| ফোল্ডার ব্রাউজ | `adb shell ls /sdcard/`         |
+| ফাইল ডিলিট করো | `adb shell rm /sdcard/file.txt` |
 
 🛠️ 7. Developer / Advanced
-| কাজ                   | কমান্ড                                       |
-| --------------------- | -------------------------------------------- |
-| Logcat (realtime log) | `adb logcat`                                 |
-| Wireless ADB          | `adb tcpip 5555` → তারপর IP দিয়ে connect করো |
-| Debug specific app    | `adb shell am start -D -n package/.Activity` |
+| 📌 কাজ                 | 💻 কমান্ড                                    |
+| ---------------------- | -------------------------------------------- |
+| Realtime log           | `adb logcat`                                 |
+| Wireless ADB চালু      | `adb tcpip 5555`                             |
+| IP দিয়ে কানেক্ট করো    | `adb connect 192.168.1.190:5555`             |
+| অ্যাপ debug mode চালাও | `adb shell am start -D -n package/.Activity` |
+| bugreport তৈরী করো     | `adb bugreport > bug.zip`                    |
+| সব permission দেখো     | `adb shell dumpsys package package.name`     |
 
 
 ---
