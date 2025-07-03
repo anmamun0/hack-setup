@@ -1,6 +1,7 @@
 # ADB Command
 
 ## Shortcut Mind Map (for Memorization)
+
 ```
 🔹 Start:            adb devices           → কানেক্টেড ডিভাইস চেক করো
 🔹 Access Shell:     adb shell             → ডিভাইসে প্রবেশ করো (Linux shell)
@@ -20,10 +21,10 @@
 ├── install app.apk                          → অ্যাপ ইনস্টল করো
 ├── uninstall <pkg>                          → অ্যাপ আনইনস্টল করো
 ├── pm clear <pkg>                           → অ্যাপের data ক্লিয়ার করো
-├── am start -n <pkg>/.MainAct               → নির্দিষ্ট অ্যাপ চালু করো
+├── am start -n <pkg>/.MainActivity          → নির্দিষ্ট অ্যাপ চালু করো
 ├── am force-stop <pkg>                      → অ্যাপ forcefully বন্ধ করো
 ├── am start -a android.settings.APPLICATION_DETAILS_SETTINGS -d package:<pkg>
-│                                            → অ্যাপের Info Settings পেইজ খুল
+│                                            → অ্যাপের Info Settings খুলো
 ├── monkey -p <pkg> -c android.intent.category.LAUNCHER 1
 │                                            → অ্যাপ monkey দিয়ে চালু করো
 
@@ -41,11 +42,18 @@
 ├── screenrecord /sdcard/demo.mp4            → স্ক্রিন ভিডিও রেকর্ড করো
 ├── pull /sdcard/demo.mp4                    → ভিডিও ফাইল পিসিতে নিয়ে আসো
 
-📁 File Transfer:
+📁 File Management:
+├── ls /sdcard/                              → ফোল্ডার ব্রাউজ করো
+├── ls -R /sdcard/                           → সম্পূর্ণ sdcard ফোল্ডার গাছ দেখো
+├── rm /sdcard/file.txt                      → ফাইল ডিলিট করো
+├── mkdir /sdcard/MyFolder                   → নতুন ফোল্ডার বানাও
+├── mv /sdcard/a.txt /sdcard/Docs/           → ফাইল সরাও
+├── cp /sdcard/a.txt /sdcard/backup.txt      → ফাইল কপি করো
+
+📂 File Transfer:
 ├── push <file> /sdcard/                     → পিসি → ফোনে ফাইল পাঠাও
 ├── pull /sdcard/<file>                      → ফোন → পিসিতে ফাইল নাও
-├── ls /sdcard/                              → ফোল্ডার ব্রাউজ করো
-├── rm /sdcard/file.txt                      → ফাইল ডিলিট করো
+├── adb pull /sdcard/DCIM/ ./DCIM            → পুরো ইমেজ ফোল্ডার নাও
 
 🌐 Network Tools:
 ├── netstat                                  → নেটওয়ার্ক কানেকশন স্ট্যাটাস
@@ -61,15 +69,14 @@
 ├── tcpip 5555                               → Wireless ADB চালু করো
 ├── connect <ip>:5555                        → IP দিয়ে ফোন কানেক্ট করো
 
-📦 App Backup (Optional):
+🧰 App Backup:
 ├── adb backup -apk -shared -all -f backup.ab → ব্যাকআপ নাও
 ├── adb restore backup.ab                    → ব্যাকআপ ফিরিয়ে আনো
-
 
 ```
 
  
-🧩 1. App Management
+### 🧩 1. App Management
 
 | 📌 কাজ                           | 💻 কমান্ড                                                                                     |
 |----------------------------------|-----------------------------------------------------------------------------------------------|
@@ -84,7 +91,7 @@
 | অ্যাপ info/settings page খোল     | `adb shell am start -a android.settings.APPLICATION_DETAILS_SETTINGS -d package:com.whatsapp` |
 
 
-🎯 2. UI Automation
+### 🎯 2. UI Automation
 
 | 📌 কাজ                | 💻 কমান্ড                            |
 | --------------------- | ------------------------------------ |
@@ -97,7 +104,7 @@
 | Back key press        | `adb shell input keyevent 4`         |
 | Power button press    | `adb shell input keyevent 26`        |
 
-## ⌨️ Input Commands
+###  ⌨️ Input Commands
 
 | Command | কাজ |
 |---------|-----|
@@ -107,7 +114,7 @@
 | `adb shell input keyevent 3` | Home বাটনে ক্লিকের মতো কাজ করে |
 | `adb shell input keyevent 4` | Back বাটনে ক্লিকের মতো কাজ করে |
 
-📱 3. Device Info
+### 📱 3. Device Info
 | 📌 কাজ             | 💻 কমান্ড                                    |
 | ------------------ | -------------------------------------------- |
 | OS version         | `adb shell getprop ro.build.version.release` |
@@ -119,16 +126,16 @@
 | CPU info           | `adb shell dumpsys cpuinfo`                  |
 | Display info       | `adb shell dumpsys display`                  |
 
-🎥 4. Screenshot & Video
+### 🎥 4. Screenshot & Video
 | 📌 কাজ              | 💻 কমান্ড                                                 |
 | ------------------- | --------------------------------------------------------- |
 | Screenshot (PNG)    | `adb exec-out screencap -p > screenshot.png`              |
 | Screen record       | `adb shell screenrecord /sdcard/demo.mp4`                 |
 | Record limit 60 sec | `adb shell screenrecord --time-limit 60 /sdcard/demo.mp4` |
 | Pull ভিডিও          | `adb pull /sdcard/demo.mp4`                               |
-    |
+   
 
-🌐 5. Network & IP Info
+### 🌐 5. Network & IP Info
 
 | 📌 কাজ          | 💻 কমান্ড                                  |
 | --------------- | ------------------------------------------ |
@@ -137,7 +144,7 @@
 | Ping টেস্ট করো  | `adb shell ping 8.8.8.8`                   |
 | HTTP proxy জানো | `adb shell settings get global http_proxy` |
 
-🔌 6. File Transfer
+### 🔌 6. File Transfer
 
 | 📌 কাজ         | 💻 কমান্ড                       |
 | -------------- | ------------------------------- |
@@ -146,7 +153,7 @@
 | ফোল্ডার ব্রাউজ | `adb shell ls /sdcard/`         |
 | ফাইল ডিলিট করো | `adb shell rm /sdcard/file.txt` |
 
-🛠️ 7. Developer / Advanced
+### 🛠️ 7. Developer / Advanced
 | 📌 কাজ                 | 💻 কমান্ড                                    |
 | ---------------------- | -------------------------------------------- |
 | Realtime log           | `adb logcat`                                 |
@@ -156,7 +163,7 @@
 | bugreport তৈরী করো     | `adb bugreport > bug.zip`                    |
 | সব permission দেখো     | `adb shell dumpsys package package.name`     |
 
-🐒 Monkey Command Reference
+### 🐒 8. Monkey Command Reference
 | কাজ                                     | কমান্ড                                                                       | বর্ণনা                                                                           |
 | --------------------------------------- | ---------------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
 | অ্যাপ চালু করো (shortcut method)        | `adb shell monkey -p com.package.name -c android.intent.category.LAUNCHER 1` | অ্যাপ লঞ্চ করার সহজ উপায়, মূল অ্যাপ চালায়                                        |
@@ -170,7 +177,7 @@
 | Monkey Test random throttle (min-max)   | `adb shell monkey --throttle <min>-<max> -p com.package.name -v <events>`    | ইভেন্টের মাঝে র‍্যান্ডম অপেক্ষা সময় (মিনিমাম থেকে ম্যাক্সিমাম) ব্যবহার করে টেস্ট |
 
 
-কিছু সাধারণ Android Intent Action এর উদাহরণ:
+### 9. কিছু সাধারণ Android Intent Action এর উদাহরণ:
 | Action String                           | কাজের বর্ণনা                                         |
 | --------------------------------------- | ---------------------------------------------------- |
 | `android.intent.action.VIEW`            | কোনো ডাটা (যেমন URL, ছবি, ভিডিও) দেখানো              |

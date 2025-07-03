@@ -170,6 +170,25 @@ subprocess.run([
 - -c android.intent.category.LAUNCHER: launcher category ট্যাগ
 - 1: একবারই চালাবে
 
+
+### Whatsapp Open and Write Message and Send 
+```python
+import subprocess
+import urllib.parse
+import time
+
+phone = "8801706656131"
+message = "Hello from Python + ADB!"
+encoded_message = urllib.parse.quote(message)
+url = f"https://wa.me/{phone}?text={encoded_message}"
+
+# Step 1: WhatsApp open
+subprocess.run(['adb', 'shell', 'am', 'start','-a', 'android.intent.action.VIEW','-d', url])
+result = subprocess.run(['adb','shell','dumpsys' ,'display'], capture_output=True, text=True)
+subprocess.run(['adb','shell','input','tap','650','1450'])
+```
+
+
 ### 8 App Force Stop
 ```
 import subprocess
@@ -198,9 +217,63 @@ subprocess.run(['adb', 'shell', 'getprop'], text=True)
 subprocess.run(['adb', 'shell', 'dumpsys', 'battery'], text=True)
 subprocess.run(['adb', 'shell', 'df', '/sdcard'], text=True)
 ```
+### 10. ADB দিয়ে কন্টাক্ট নাম্বার ও নাম দেখতে
 
+```
+subprocess.run(['adb', 'shell' ,'content', 'query', '--uri', 'content://contacts/phones/', '--projection', 'display_name:number']) 
+```
 
+### 11. ইনবক্সের এসএমএস মেসেজের জন্য
+
+```
+import subprocess
+
+try:
+    # Run adb shell command, capture raw bytes
+    result = subprocess.run(
+        ['adb', 'shell', 'content', 'query', '--uri', 'content://sms/inbox/'],
+        capture_output=True,
+        text=False  # Keep raw bytes
+    )
+
+    if result.stdout is None:
+        print("No output from adb command.")
+    else:
+        # Decode using UTF-8, replace errors to avoid crashes on invalid bytes
+        output = result.stdout.decode('utf-8', errors='replace')
+
+        # Save output to UTF-8 encoded file
+        with open('sms_inbox_bangla.txt', 'w', encoding='utf-8') as f:
+            f.write(output)
+
+        print("Bangla SMS saved successfully to sms_inbox_bangla.txt")
+
+    # If adb returned an error, print it (also decoded properly)
+    if result.returncode != 0:
+        err = (result.stderr.decode('utf-8', errors='replace') 
+               if result.stderr else "No error message")
+        print(f"ADB error (code {result.returncode}): {err}")
+
+except Exception as e:
+    print("Exception:", e)
+```
+
+<h6> 
+    
+| অংশ                          | ব্যাখ্যা (বাংলায়)                                                                                                          |
+| ---------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| `adb`                        | Android Debug Bridge — কম্পিউটার থেকে ফোনে কমান্ড পাঠানোর জন্য ব্যবহৃত                                                     |
+| `shell`                      | ফোনের ভিতরের Linux Shell-এ প্রবেশ করে কমান্ড চালানোর জন্য                                                                  |
+| `content`                    | Android-এর Content Provider ব্যবস্থার অংশ — যেটা ফোনের ডেটাবেইস অ্যাক্সেস করতে দেয় (যেমন Contacts, SMS, Call Logs ইত্যাদি) |
+| `query`                      | Content Provider থেকে তথ্য বের করে আনতে চাই, তাই `query` চালাই                                                             |
+| `--uri`                      | URI (Uniform Resource Identifier) জানায়, কোন ধরনের তথ্য চাই                                                                |
+| `content://contacts/phones/` | এই URI নির্দেশ করে আমরা **contacts database** থেকে **phone number সহ তথ্য** আনতে চাই                                       |
+| `--projection`               | projection মানে কোন কোন ফিল্ড/কলাম চাই তা নির্দিষ্ট করা                                                                    |
+| `display_name:number`        | দুটি ফিল্ড চাই: ১) Contact এর নাম (`display_name`), ২) Contact এর নাম্বার (`number`)       |
+
+</h6>
 ---
+
 
 
 Python দিয়ে যেকোনো ADB কমান্ড চালানো অনেক সহজ এবং আরও কাস্টমাইজড করা যায়।
