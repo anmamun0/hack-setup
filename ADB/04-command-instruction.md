@@ -163,115 +163,7 @@
 | bugreport তৈরী করো     | `adb bugreport > bug.zip`                    |
 | সব permission দেখো     | `adb shell dumpsys package package.name`     |
 
-### 🐒 8. Monkey Command Reference
-| কাজ                                     | কমান্ড                                                                       | বর্ণনা                                                                           |
-| --------------------------------------- | ---------------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
-| অ্যাপ চালু করো (shortcut method)        | `adb shell monkey -p com.package.name -c android.intent.category.LAUNCHER 1` | অ্যাপ লঞ্চ করার সহজ উপায়, মূল অ্যাপ চালায়                                        |
-| নির্দিষ্ট অ্যাপের উপর Monkey Test চালাও | `adb shell monkey -p com.package.name -v <events>`                           | নির্দিষ্ট অ্যাপে র‍্যান্ডম ইনপুট ইভেন্ট দিয়ে টেস্ট করে                           |
-| Monkey Test চালাও নির্দিষ্ট থ্রোটল দিয়ে | `adb shell monkey --throttle <ms> -p com.package.name -v <events>`           | ইভেন্টের মধ্যে specified মিলিসেকেন্ড অপেক্ষা করে টেস্ট চালায়                     |
-| Monkey Test verbose mode চালাও          | `adb shell monkey -v -v -p com.package.name <events>`                        | টেস্ট চলাকালীন বিস্তারিত লগ দেখায়                                                |
-| সিস্টেম-wide Monkey Stress Test চালাও   | `adb shell monkey --throttle 500 -v -v -v 1000`                              | পুরো সিস্টেমে ১০০০ ইভেন্ট দিয়ে স্ট্রেস টেস্ট চালায়                               |
-| Monkey Test চালাও random seed দিয়ে      | `adb shell monkey --seed <number> -p com.package.name -v <events>`           | নির্দিষ্ট seed ব্যবহার করে টেস্ট চালায় (repeatable test)                         |
-| Monkey Test stop on crash               | `adb shell monkey --monitor-native-crashes -p com.package.name -v <events>`  | ক্র্যাশ হলে টেস্ট থামিয়ে দেয়                                                     |
-| Monkey Test stop on ANR                 | `adb shell monkey --monitor-crashes -p com.package.name -v <events>`         | ANR (Application Not Responding) হলে টেস্ট থামায়                                 |
-| Monkey Test random throttle (min-max)   | `adb shell monkey --throttle <min>-<max> -p com.package.name -v <events>`    | ইভেন্টের মাঝে র‍্যান্ডম অপেক্ষা সময় (মিনিমাম থেকে ম্যাক্সিমাম) ব্যবহার করে টেস্ট |
-
-
-### 9. কিছু সাধারণ Android Intent Action এর উদাহরণ:
-| Action String                           | কাজের বর্ণনা                                         |
-| --------------------------------------- | ---------------------------------------------------- |
-| `android.intent.action.VIEW`            | কোনো ডাটা (যেমন URL, ছবি, ভিডিও) দেখানো              |
-| `android.intent.action.SEND`            | অন্য অ্যাপের কাছে ডাটা পাঠানো (শেয়ার করা)            |
-| `android.intent.action.MAIN`            | অ্যাপের মেইন entry point চালানো                      |
-| `android.intent.action.DIAL`            | ডায়ালার খুলে কল করার জন্য নম্বর দেখানো               |
-| `android.intent.action.CALL`            | সরাসরি কল করা (permission লাগবে)                     |
-| `android.intent.action.EDIT`            | ডাটা এডিট করার জন্য অ্যাপ চালানো                     |
-| `android.intent.action.PICK`            | ইউজারকে ডাটা নির্বাচন করতে দেয় (যেমন কনট্যাক্ট, ছবি) |
-| `android.intent.action.DELETE`          | ডাটা ডিলেট করার জন্য Intent                          |
-| `android.intent.action.INSERT`          | নতুন ডাটা যোগ করার জন্য Intent                       |
-| `android.intent.action.SENDTO`          | কেবল পাঠানোর জন্য (যেমন SMS)                         |
-| `android.intent.action.POWER_CONNECTED` | পাওয়ার সংযুক্ত হলে ট্রিগার হয়                        |
-| `android.intent.action.BOOT_COMPLETED`  | ফোন বুট হলে ট্রিগার হয়                               |
-
-Example
-```
-# ম্যাপে সান ফ্রান্সিসকো লোকেশন দেখাবে
-adb shell am start -a android.intent.action.VIEW -d geo:37.7749,-122.4194
-
-# অন্য অ্যাপে টেক্সট শেয়ার করার জন্য Intent
-adb shell am start -a android.intent.action.SEND -t text/plain -e android.intent.extra.TEXT "Hello from ADB"
-
-# কন্টাক্ট এডিট পেজ খুলবে (id=1)
-adb shell am start -a android.intent.action.EDIT -d content://contacts/people/1
-
-# ইউজারকে ছবি সিলেক্ট করতে বলবে
-adb shell am start -a android.intent.action.PICK -t image/*
-
-# সরাসরি কল শুরু করবে (permission লাগবে)
-adb shell am start -a android.intent.action.CALL -d tel:1234567890
-
-# ফোনের সেটিংস অ্যাপ চালু করবে
-adb shell am start -a android.intent.action.MAIN -n com.android.settings/.Settings
-
-# ইমেইল ক্লায়েন্ট চালু করবে এবং ইমেইল পাঠানোর জন্য প্রস্তুত করবে
-adb shell am start -a android.intent.action.VIEW -d mailto:someone@example.com
-
-# WhatsApp চালু করবে (Home screen থেকে)
-adb shell monkey -p com.whatsapp -c android.intent.category.LAUNCHER 1
-
-# WhatsApp এ সরাসরি মেসেজ পাঠানোর জন্য (WhatsApp URL scheme)
-adb shell am start -a android.intent.action.VIEW -d "https://wa.me/8801700000000?text=Hello%20from%20ADB"
-
-# Facebook অ্যাপ চালু করবে (Home screen থেকে)
-adb shell monkey -p com.facebook.katana -c android.intent.category.LAUNCHER 1
-
-# Facebook এর নির্দিষ্ট URL খুলবে ব্রাউজারে অথবা ফেসবুক অ্যাপে
-adb shell am start -a android.intent.action.VIEW -d "https://www.facebook.com/profile.php?id=1000123456789"
-
-# Messenger অ্যাপ চালু করবে (Home screen থেকে)
-adb shell monkey -p com.facebook.orca -c android.intent.category.LAUNCHER 1
-
-# Messenger এ নির্দিষ্ট contact কে মেসেজ পাঠানোর intent (Messenger URI scheme)
-adb shell am start -a android.intent.action.VIEW -d "fb-messenger://user/USER_ID"
-
-# Telegram চালু করবে (Home screen থেকে)
-adb shell monkey -p org.telegram.messenger -c android.intent.category.LAUNCHER 1
-
-# Telegram এ সরাসরি চ্যাট শুরু করার জন্য URL scheme
-adb shell am start -a android.intent.action.VIEW -d "tg://resolve?domain=username"
-
-```
-
-
-
-| অপশন | ফুল ফর্ম  | কাজ / ব্যাখ্যা                                                                              | বাংলা অর্থ                                                                       |
-| ---- | --------- | ------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
-| `-a` | action    | Intent এর Action সেট করে, যেমন `android.intent.action.VIEW` বা `android.intent.action.DIAL` | অ্যাপ বা সিস্টেমে কী কাজ করাতে চাইছো সেটা নির্দিষ্ট করে (যেমন দেখানো, ডায়াল করা) |
-| `-d` | data      | Intent এর Data URI বা URL নির্দিষ্ট করে                                                     | কোন ডাটা (যেমন ওয়েবসাইট URL, ফোন নম্বর, লোকেশন) কে অ্যাপে পাঠাবে                 |
-| `-p` | package   | Target অ্যাপের প্যাকেজ নাম নির্দিষ্ট করে (অর্থাৎ কোন অ্যাপকে টার্গেট করবে)                  | কোন অ্যাপে কমান্ড চালাবে সেটা বলে দেয়                                            |
-| `-t` | type      | Intent এর MIME টাইপ সেট করে, যেমন `text/plain`, `image/*`                                   | ডাটা টাইপ কি (যেমন সাধারণ টেক্সট, ছবি) সেট করে                                   |
-| `-c` | category  | Intent এর ক্যাটেগরি সেট করে, যেমন `android.intent.category.LAUNCHER`                        | Intent এর ধরণ বা গ্রুপ নির্ধারণ করে (যেমন অ্যাপ লঞ্চার থেকে চালানো)              |
-| `-n` | component | সম্পূর্ণ কম্পোনেন্ট নাম, প্যাকেজ ও Activity, যেমন `com.facebook.katana/.MainActivity`       | স্পেসিফিক Activity বা Screen চালানোর জন্য                                        |
-| `-e` | extra     | Extra ডাটা পাঠানোর জন্য, key-value pair হিসেবে, যেমন `-e key value`                         | অতিরিক্ত ইনফো অ্যাপকে পাঠানোর জন্য                                               |
-
-```
-adb shell am start -a android.intent.action.VIEW -d https://www.google.com
-```
-> -a android.intent.action.VIEW → দেখাতে হবে (View action) <br>
-> -d https://www.google.com → গুগল ওয়েবসাইট URL পাঠাবে <br>
-
-```bash 
-adb shell monkey -p com.whatsapp -c android.intent.category.LAUNCHER 1
-```
-
-> -p com.whatsapp → WhatsApp অ্যাপ টার্গেট করবে <br>
-> -c android.intent.category.LAUNCHER → অ্যাপ লঞ্চার থেকে চালানো হচ্ছে <br>
-> 1 → ১ বার চালাবে 
-
-<br>
-
- 
-## 10. dumpsys ("Dump System information")
+## 8. dumpsys ("Dump System information")
 - এটা Android-এর একটি ADB (Android Debug Bridge) কমান্ড যা বিভিন্ন সিস্টেম সার্ভিসের তথ্য (info/status/debug) বের করতে ব্যবহৃত হয়।
 - dumpsys হলো Android ডিভাইসের ভেতরের সব সিস্টেম সার্ভিস (যেমন battery, wifi, activity, account, etc.) সম্পর্কে detail রিপোর্ট বের করার টুল।
 
@@ -311,16 +203,124 @@ adb shell dumpsys wifi
 ```
 
 
-12. System Databases (Content Providers)
+9. System Databases (Content Providers)
+[Learn More](https://github.com/anmamun0/hack-setup/blob/main/ADB/05-Android-App-System-Database-Access.md)
+
+
 কিছু সিস্টেম ডেটা তুমি adb shell content দিয়ে query করতে পারো।
 
-[Learn More] 
 ```bash
 adb shell content query --uri content://contacts/phones/
 adb shell content query --uri content://com.android.calendar/events
 adb shell content query --uri content://call_log/calls
 adb shell content query --uri content://sms/
 ```
+ 
+### 10. Android Intent Action
+ 
+[Learn More](https://github.com/anmamun0/hack-setup/blob/main/ADB/06-Android-Intent-Action.md)
+
+Android অ্যাপে কোনো নির্দিষ্ট কাজ করানোর জন্য দেওয়া একটি নির্দেশনা (command), যেটা সিস্টেম বা অন্য অ্যাপ বুঝে নেয় এবং সেই কাজটি সম্পাদন করে।
+
+ 
+##### একটি Intent সাধারণত ৩টি গুরুত্বপূর্ণ অংশে ভাগ করা যায়:
+<h6>
+ 
+| অংশ          | ব্যাখ্যা                                                                                  |
+| ------------ | ----------------------------------------------------------------------------------------- |
+| **Action**   | কী কাজ করবে (যেমন: দেখানো, কল করা, এডিট করা ইত্যাদি)                                      |
+| **Data**     | কোন ডাটা নিয়ে কাজ করবে (যেমন URL, ফোন নম্বর, ছবি)                                         |
+| **Category** | কোন ধরণের অ্যাপ এটি হ্যান্ডেল করতে পারবে (যেমন LAUNCHER ক্যাটাগরি মানে হোম স্ক্রিন অ্যাপ) |
+
+</h6>
+ 
+
+1. website open করা:
+```bash
+adb shell am start -a android.intent.action.VIEW -d https://www.google.com
+```
+
+<h6>
+🔹 Action: VIEW (দেখাও) <br>
+🔹 Data: https://www.google.com → এটা ব্রাউজারে ওপেন হবে<br>
+</h6>
+
+2. কল করার জন্য নম্বর সেট করা (dial):
+```bash 
+adb shell am start -a android.intent.action.DIAL -d tel:01700000000
+```
+<h6>
+🔹 Action: DIAL <br>
+🔹 Data: tel:01700000000 → এই নম্বর কল স্ক্রিনে আসবে
+</h6>
+
+3.  লোকেশন ম্যাপে দেখানো:
+```bash 
+adb shell am start -a android.intent.action.VIEW -d geo:37.7749,-122.4194
+```
+<h6>
+🔹 Action: VIEW <br>
+🔹 Data: geo: URI → ম্যাপে লোকেশন দেখাবে
+</h6>
+
+4.  ইমেইল পাঠানোর জন্য প্রস্তুত করা:
+```bash 
+adb shell am start -a android.intent.action.VIEW -d mailto:someone@example.com
+```
+<h6>
+🔹 Action: VIEW <br>
+🔹 Data: mailto: URI → ইমেইল অ্যাপে ওপেন হবে
+</h6>
+
+5.  নির্দিষ্ট কন্টেন্ট ID (যেমন কনট্যাক্ট):
+```bash 
+adb shell am start -a android.intent.action.EDIT -d content://contacts/people/1
+```
+<h6>
+🔹 Action: EDIT <br>
+🔹 Data: content://contacts/people/1 → ID 1-এর কনট্যাক্ট এডিট করতে
+</h6>
+
+
+```
+# অন্য অ্যাপে টেক্সট শেয়ার করার জন্য শেয়ার ডায়ালগ খুলবে এবং পাঠানো টেক্সট হবে "This is a test message"।
+adb shell am start -a android.intent.action.SEND -t text/plain -e android.intent.extra.TEXT "This is a test message"
+
+# SMS অ্যাপ খুলবে, যেখানে রিসিপিয়েন্ট নম্বর হবে ০১৭১২৩৪৫৬৭৮ এবং SMS বডিতে আগে থেকে লেখা থাকবে "Hello from ADB"।
+adb shell am start -a android.intent.action.SENDTO -d sms:01712345678 --es sms_body "Hello from ADB"
+
+# নম্বর ০১৭১২৩৪৫৬৭৮-এ সরাসরি কল শুরু করবে (কল করার অনুমতি থাকতে হবে)।
+adb shell am start -a android.intent.action.CALL -d tel:01712345678
+
+# ক্যালেন্ডার ইভেন্ট তৈরির পেজ খুলবে, যেখানে ইভেন্টের শিরোনাম হবে "Meeting", শুরু সময় ও শেষ সময় মিলিসেকেন্ড ইউনিক্স টাইমস্ট্যাম্প হিসেবে সেট থাকবে।
+adb shell am start -a android.intent.action.INSERT -t vnd.android.cursor.dir/event -e title "Meeting" -e beginTime 1688476800000 -e endTime 1688480400000
+
+```
+ 
+### 11. Monkey কী?
+[Learn More](https://github.com/anmamun0/hack-setup/blob/main/ADB/07_Monkey_Tool_Android_Intent-Action)
+
+- 👉 monkey হলো Android-এর একটি testing tool,
+- যেটা অ্যাপে random UI event পাঠিয়ে অ্যাপের stability ও performance পরীক্ষা করে।
+
+#### কাজ:
+- অ্যাপের ওপর এলোমেলো touch, scroll, back press ইত্যাদি simulate করে
+- অ্যাপ ক্র্যাশ হয় কিনা সেটা বোঝা যায়
+- Automation বা Stress Test এর জন্য ব্যবহৃত হয়
+
+🔸 Facebook চালাতে চাই Home screen থেকে:
+```bash 
+adb shell monkey -p com.facebook.katana -c android.intent.category.LAUNCHER 1
+```
+###### → এটা শুধু অ্যাপ চালাবে। কোথা থেকে চালাচ্ছো তা দেখায় না।
+
+🔸 Facebook এর নির্দিষ্ট Activity চালাতে চাইলে:
+```bash
+adb shell am start -n com.facebook.katana/.MainActivity
+```
+###### → এখানে তুমি সম্পূর্ণ control পাচ্ছো — চাইলে extra data, MIME type দিতে পারো।
+
+
 
 ---
 
