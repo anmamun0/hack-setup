@@ -242,6 +242,8 @@ adb shell am start -a android.intent.action.VIEW -d "tg://resolve?domain=usernam
 
 ```
 
+
+
 | অপশন | ফুল ফর্ম  | কাজ / ব্যাখ্যা                                                                              | বাংলা অর্থ                                                                       |
 | ---- | --------- | ------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
 | `-a` | action    | Intent এর Action সেট করে, যেমন `android.intent.action.VIEW` বা `android.intent.action.DIAL` | অ্যাপ বা সিস্টেমে কী কাজ করাতে চাইছো সেটা নির্দিষ্ট করে (যেমন দেখানো, ডায়াল করা) |
@@ -267,6 +269,58 @@ adb shell monkey -p com.whatsapp -c android.intent.category.LAUNCHER 1
 > 1 → ১ বার চালাবে 
 
 <br>
+
+ 
+## 10. dumpsys ("Dump System information")
+- এটা Android-এর একটি ADB (Android Debug Bridge) কমান্ড যা বিভিন্ন সিস্টেম সার্ভিসের তথ্য (info/status/debug) বের করতে ব্যবহৃত হয়।
+- dumpsys হলো Android ডিভাইসের ভেতরের সব সিস্টেম সার্ভিস (যেমন battery, wifi, activity, account, etc.) সম্পর্কে detail রিপোর্ট বের করার টুল।
+
+<h6> 
+
+| সেবা (`dumpsys` module) | কাজ / তথ্য                                                     |
+| ----------------------- | -------------------------------------------------------------- |
+| `battery`               | ব্যাটারির অবস্থা (level, charging status, temperature ইত্যাদি) |
+| `activity`              | চলমান অ্যাপ, টাস্ক, ফোকাসড অ্যাপ                               |
+| `window`                | UI window সম্পর্কে তথ্য                                        |
+| `package`               | ইনস্টল করা অ্যাপ, পারমিশন, অ্যাক্টিভিটি                        |
+| `meminfo`               | মেমোরি ব্যবহার সম্পর্কিত তথ্য                                  |
+| `cpuinfo`               | CPU usage সম্পর্কে তথ্য                                        |
+| `wifi`                  | WiFi অবস্থা, সংযোগ, signal strength                            |
+| `bluetooth_manager`     | ব্লুটুথ অবস্থা ও ডিভাইস                                        |
+| `location`              | GPS ও লোকেশন সার্ভিস                                           |
+| `connectivity`          | মোবাইল/WiFi/ডেটা নেটওয়ার্ক অবস্থা                              |
+| `diskstats`             | স্টোরেজ ব্যবস্থাপনা                                            |
+| `notification`          | বর্তমান সক্রিয় নোটিফিকেশন                                      |
+| `account`               | লগইন করা গুগল/অন্য অ্যাকাউন্ট                                  |
+| `media.audio_flinger`   | অডিও প্লেব্যাক সম্পর্কিত তথ্য                                  |
+| `media.session`         | মিডিয়া প্লেয়ার কন্ট্রোল                                        |
+| `input`                 | ইনপুট ডিভাইস ও ইভেন্ট                                          |
+| `power`                 | পাওয়ার ম্যানেজমেন্ট                                            |
+| `netstats`              | ডেটা ব্যবহারের পরিসংখ্যান                                      |
+| `procstats`             | প্রসেস স্ট্যাটাস                                               |
+| `usagestats`            | অ্যাপ ইউসেজ রিপোর্ট                                            |
+| `vibrator`              | ভাইব্রেশন কন্ট্রোল সম্পর্কিত                                   |
+
+</h6>
+
+```
+adb shell dumpsys battery
+adb shell dumpsys account
+adb shell dumpsys activity
+adb shell dumpsys wifi
+```
+
+
+12. System Databases (Content Providers)
+কিছু সিস্টেম ডেটা তুমি adb shell content দিয়ে query করতে পারো।
+
+[Learn More] 
+```bash
+adb shell content query --uri content://contacts/phones/
+adb shell content query --uri content://com.android.calendar/events
+adb shell content query --uri content://call_log/calls
+adb shell content query --uri content://sms/
+```
 
 ---
 
