@@ -5,15 +5,15 @@
 
 | টুলের নাম                          | বিস্তারিত লিংক                                                    |
 |-----------------------------------|------------------------------------------------------------------|
-| Wireshark                        | [Wireshark কী?](#wireshark-কী)                                   |
-| Npcap                            | [Npcap কী?](#npcap-কী)                                           |
-| Aircrack-ng                      | [aircrack-ng কী?](#aircrack-ng-কী)                               |
-| Kismet                          | [Kismet কী?](#kismet-কী)                                         |
-| Nmap                            | [Nmap কী?](#nmap-কী)                                             |
-| Metasploit                      | [Metasploit কী?](#metasploit-কী)                                 |
-| John the Ripper                 | [John the Ripper কী?](#john-the-ripper-কী)                       |
-| SQLmap                         | [SQLmap কী?](#sqlmap-কী)                                         |
-| Hydra                          | [Hydra কী?](#hydra-কী)                                           |
+| Wireshark                        | [Wireshark কী](#wireshark-কী)                                   |
+| Npcap                            | [Npcap কী](#npcap-কী)                                           |
+| Aircrack-ng                      | [aircrack-ng কী](#aircrack-ng-কী)                               |
+| Kismet                          | [Kismet কী](#kismet-কী)                                         |
+| Nmap                            | [Nmap কী](#nmap-কী)                                             |
+| Metasploit                      | [Metasploit কী](#metasploit-কী)                                 |
+| John the Ripper                 | [John the Ripper কী](#john-the-ripper-কী)                       |
+| SQLmap                         | [SQLmap কী](#sqlmap-কী)                                         |
+| Hydra                          | [Hydra কী](#hydra-কী)                                           |
 | জনপ্রিয় সাইবারসিকিউরিটি টুলস   | [জনপ্রিয় সাইবারসিকিউরিটি টুলস লিস্ট (Categories-wise)](#জনপ্রিয়-সাইবারসিকিউরিটি-টুলস-লিস্ট-categories-wise) |
 
 </h6>
@@ -21,7 +21,7 @@
 <br>
 <br>
 
-# Wireshark কী? (সহজ ভাষায়)
+# Wireshark কী? 
 
 - ধরো তুমি তোমার বাসার Wi-Fi-তে অনেকগুলো ডিভাইস কানেক্ট করে রেখেছো — যেমন তোমার ল্যাপটপ, ভাইয়ের মোবাইল, টিভি ইত্যাদি।
 
@@ -214,7 +214,7 @@ Wireshark-এ হাজার হাজার প্যাকেট আসতে
 <br>
 <br>
 
-# 🧩 Npcap কী?
+# Npcap কী?
 
 Npcap হলো Windows-এ ব্যবহারযোগ্য একটি **packet capture driver**, যেটা Wireshark-কে নেটওয়ার্ক ট্রাফিক ধরার (sniffing) ক্ষমতা দেয়।  
 
@@ -276,7 +276,7 @@ Npcap হলো Wireshark-এর চোখ 👀
 <br>
 <br>
 
-# 🧨 aircrack-ng কী?
+# aircrack-ng কী?
 aircrack-ng হলো একটি wireless network security auditing tool, যেটা মূলত Wi-Fi পাসওয়ার্ড ভাঙতে (crack করতে) ব্যবহৃত হয়।
 > এক কথায়: এটা হলো Wi-Fi হ্যাকিং টুল ✅ (ethical purposes only!)
  
@@ -373,7 +373,7 @@ handshake ধরে পাসওয়ার্ড brute-force করে বের 
 <br>
 <br>
 
-# 🛰️ Kismet কী?
+#  Kismet কী?
 
 👉 Kismet হলো একটি wireless network detector, sniffer, এবং intrusion detection system (IDS)।  
 
@@ -467,7 +467,7 @@ Kismet হলো এমন একটি WiFi গোয়েন্দা 👁️
 
 
 
-# 🕵️‍♂️ Nmap কী?
+# Nmap কী?
 
 Nmap (Network Mapper) হলো একটি network scanning tool, যা ব্যবহার করা হয়:  
 
@@ -592,7 +592,7 @@ Nmap হলো নেটওয়ার্ক জগতের এক্স-রে �
 
 
 
-# 🧠 Metasploit কী?
+# Metasploit কী?
 
 👉 **Metasploit** হলো একটি শক্তিশালী **Penetration Testing Framework**,  
 যেটা দিয়ে তুমি:
@@ -723,7 +723,7 @@ run
 <br>
 
 
-# 🔐 John the Ripper কী?
+# John the Ripper কী?
 
 👉 **John the Ripper (JtR)** হলো একটি password cracking tool,  
 যেটা বিভিন্ন ধরণের password hash কে brute-force বা dictionary attack-এর মাধ্যমে ভেঙে ফেলে।
@@ -837,7 +837,7 @@ Hashed password কে decode করে **রিয়েল পাসওয়ার�
 
 
 
-#  🧠 SQLmap কী?
+# SQLmap কী?
 
 👉 **SQLmap** হলো একটি open-source penetration testing tool,  
 যেটা **SQL Injection vulnerability** খুঁজে বের করে এবং তার মাধ্যমে:
@@ -948,7 +948,7 @@ SQLmap তোমার জন্য **পুরো ডেটাবেইস খ�
 
 
 
-### 🧰 Hydra কী?
+### Hydra কী?
 
 👉 **Hydra** (বা THC-Hydra) হলো একটি শক্তিশালী **network login cracker**  
 যা বিভিন্ন প্রোটোকল (যেমন FTP, SSH, HTTP, SMB, SMTP ইত্যাদি) ব্যবহার করে  
